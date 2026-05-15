@@ -2,48 +2,57 @@ import streamlit as st
 
 st.title("Program Pengeluaran Saldo")
 
+# SESSION STATE
+if "sisa" not in st.session_state:
+    st.session_state.sisa = 0
+
+if "log_pengeluaran" not in st.session_state:
+    st.session_state.log_pengeluaran = []
+
 # INPUT SALDO AWAL
-saldo_awal = st.number_input("Masukkan saldo awal", min_value=0, step=1000)
+saldo_awal = st.number_input(
+    "Masukkan saldo awal",
+    min_value=0,
+    step=1000
+)
 
-# Tombol mulai
+# TOMBOL MULAI
 if st.button("Mulai"):
-
-    # IF SALDO > 0
     if saldo_awal > 0:
+        st.session_state.sisa = saldo_awal
+        st.session_state.log_pengeluaran = []
 
-        sisa = saldo_awal
-        log_pengeluaran = []
+# JIKA PROGRAM SUDAH DIMULAI
+if st.session_state.sisa > 0:
 
-        # WHILE
-        while sisa > 0:
+    st.write("Sisa saldo:", st.session_state.sisa)
 
-            pengeluaran = st.number_input(
-                f"Masukkan pengeluaran (Sisa saldo: {sisa})",
-                min_value=0,
-                step=1000,
-                key=sisa
-            )
+    pengeluaran = st.number_input(
+        "Masukkan pengeluaran",
+        min_value=0,
+        step=1000
+    )
 
-            if st.button(f"Tambah Pengeluaran {sisa}"):
+    # TOMBOL TAMBAH
+    if st.button("Tambah Pengeluaran"):
 
-                # IF PENGELUARAN VALID
-                if pengeluaran >= 2000 and pengeluaran <= sisa:
+        if (
+            pengeluaran >= 2000
+            and pengeluaran <= st.session_state.sisa
+        ):
 
-                    sisa = sisa - pengeluaran
-                    log_pengeluaran.append(pengeluaran)
+            st.session_state.sisa -= pengeluaran
+            st.session_state.log_pengeluaran.append(pengeluaran)
 
-                    st.success(f"Pengeluaran berhasil ditambahkan: {pengeluaran}")
-                    st.write("Sisa saldo:", sisa)
-                    st.write("Log Pengeluaran:", log_pengeluaran)
+            st.success("Pengeluaran berhasil ditambahkan")
 
-                else:
-                    st.error("Pengeluaran tidak valid")
+        else:
+            st.error("Pengeluaran tidak valid")
 
-                # STOP WHILE JIKA SALDO HABIS
-                if sisa == 0:
-                    st.warning("Saldo habis")
+    # OUTPUT
+    st.write("Log Pengeluaran:")
+    st.write(st.session_state.log_pengeluaran)
 
-                break
-
-    else:
-        st.error("Saldo awal harus lebih dari 0")
+    # JIKA SALDO HABIS
+    if st.session_state.sisa == 0:
+        st.warning("Saldo habis")
