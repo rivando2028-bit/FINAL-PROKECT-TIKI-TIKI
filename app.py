@@ -1,6 +1,6 @@
 import streamlit as st
 
-st.+-title("Program Pengeluaran Saldo")
+st.title("Program Pengeluaran Saldo")
 
 # INPUT saldo awal
 saldo_awal = st.number_input("Masukkan saldo awal:", min_value=0, step=1000)
