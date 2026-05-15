@@ -1,2 +1,3 @@
 # FINAL-PROKECT-TIKI-TIKI
 
+Sistem ini mengelola saldo uang user dengan nyaring transaksi receh secara otomatis agar laporan lebih rapi. Program dimulai dengan meminta input saldo awal yang harus bernilai di atas nol. lalu, sistem masuk ke dalam mode perulangan untuk menerima input transaksi pengeluaran secara terus-menerus. Setiap pengeluaran di bawah Rp2.000 akan otomatis diabaikan, sedangkan transaksi Rp2.000 atau lebih akan memotong saldo dan dicatat ke dalam log riwayat. Setelah setiap transaksi diproses, sistem langsung menampilkan sisa saldo aktual beserta daftar log yang berhasil terfilter. Proses input ini akan terus berulang dan baru akan berhenti secara otomatis jika sisa saldo user habis
